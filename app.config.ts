@@ -64,7 +64,13 @@ const config: ExpoConfig = {
     edgeToEdgeEnabled: true,
     predictiveBackGestureEnabled: false,
     package: env.androidPackage,
-    permissions: ["POST_NOTIFICATIONS"],
+    permissions: [
+      "POST_NOTIFICATIONS",
+      "SYSTEM_ALERT_WINDOW",
+      "BLUETOOTH_CONNECT",
+      "BLUETOOTH_SCAN",
+      "FOREGROUND_SERVICE",
+    ],
     intentFilters: [
       {
         action: "VIEW",
@@ -85,6 +91,7 @@ const config: ExpoConfig = {
     favicon: "./assets/images/favicon.png",
   },
   plugins: [
+    "./plugins/withGamepadMapper",
     "expo-router",
     [
       "expo-audio",
