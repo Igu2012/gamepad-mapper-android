@@ -65,11 +65,9 @@ const config: ExpoConfig = {
     predictiveBackGestureEnabled: false,
     package: env.androidPackage,
     permissions: [
-      "POST_NOTIFICATIONS",
       "SYSTEM_ALERT_WINDOW",
       "BLUETOOTH_CONNECT",
       "BLUETOOTH_SCAN",
-      "FOREGROUND_SERVICE",
     ],
     intentFilters: [
       {
@@ -91,21 +89,7 @@ const config: ExpoConfig = {
     favicon: "./assets/images/favicon.png",
   },
   plugins: [
-    "./plugins/withGamepadMapper",
     "expo-router",
-    [
-      "expo-audio",
-      {
-        microphonePermission: "Allow $(PRODUCT_NAME) to access your microphone.",
-      },
-    ],
-    [
-      "expo-video",
-      {
-        supportsBackgroundPlayback: true,
-        supportsPictureInPicture: true,
-      },
-    ],
     [
       "expo-splash-screen",
       {
@@ -127,6 +111,7 @@ const config: ExpoConfig = {
         },
       },
     ],
+    "./plugins/withGamepadMapper",
   ],
   experiments: {
     typedRoutes: true,

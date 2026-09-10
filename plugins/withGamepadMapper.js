@@ -7,6 +7,27 @@ const SERVICE_CLASS = ".GamepadMapperAccessibilityService";
 module.exports = function withGamepadMapper(config) {
   config = withAndroidManifest(config, (mod) => {
     const manifest = mod.modResults.manifest;
+    manifest.$ = manifest.$ || {};
+    manifest.$["xmlns:tools"] = "http://schemas.android.com/tools";
+    const unnecessaryPermissions = new Set([
+      "android.permission.RECORD_AUDIO",
+      "android.permission.MODIFY_AUDIO_SETTINGS",
+      "android.permission.POST_NOTIFICATIONS",
+      "android.permission.READ_EXTERNAL_STORAGE",
+      "android.permission.WRITE_EXTERNAL_STORAGE",
+      "android.permission.USE_BIOMETRIC",
+      "android.permission.USE_FINGERPRINT",
+      "android.permission.FOREGROUND_SERVICE",
+      "android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK",
+    ]);
+    manifest["uses-permission"] = (manifest["uses-permission"] || []).filter(
+      (item) => !unnecessaryPermissions.has(item.$?.["android:name"]),
+    );
+    for (const name of unnecessaryPermissions) {
+      manifest["uses-permission"].push({
+        $: { "android:name": name, "tools:node": "remove" },
+      });
+    }
     manifest["uses-permission"] = manifest["uses-permission"] || [];
     for (const name of ["android.permission.SYSTEM_ALERT_WINDOW", "android.permission.BLUETOOTH_CONNECT", "android.permission.BLUETOOTH_SCAN", "android.permission.FOREGROUND_SERVICE"]) {
       if (!manifest["uses-permission"].some((item) => item.$?.["android:name"] === name)) {
