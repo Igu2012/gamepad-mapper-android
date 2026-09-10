@@ -3,6 +3,7 @@ package com.igu2012.gamepadmapper;
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.accessibilityservice.GestureDescription;
+import android.view.accessibility.AccessibilityEvent;
 import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.os.Build;
@@ -28,7 +29,7 @@ public class GamepadMapperAccessibilityService extends AccessibilityService {
   @Override public void onServiceConnected() {
     super.onServiceConnected();
     AccessibilityServiceInfo info = new AccessibilityServiceInfo();
-    info.eventTypes = AccessibilityServiceInfo.TYPES_ALL_MASK;
+    info.eventTypes = AccessibilityEvent.TYPES_ALL_MASK;
     info.feedbackType = AccessibilityServiceInfo.FEEDBACK_GENERIC;
     info.flags = AccessibilityServiceInfo.FLAG_REQUEST_FILTER_KEY_EVENTS;
     setServiceInfo(info);
@@ -98,5 +99,6 @@ public class GamepadMapperAccessibilityService extends AccessibilityService {
   }
 
   @Override public void onInterrupt() { }
+  @Override public void onAccessibilityEvent(AccessibilityEvent event) { }
   @Override public void onDestroy() { hideOverlay(); super.onDestroy(); }
 }
